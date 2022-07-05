@@ -1,0 +1,1499 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        #map {
+            width: 800px;
+            height: 540px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/sectores_1.js"></script>
+        <script src="data/CConcesionado_lineas_2.js"></script>
+        <script src="data/limite_de_las_alcaldias_3.js"></script>
+        <script src="data/robomicroclasificacin_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[19.137010854743476,-99.46562912385929],[19.596749019710824,-98.78371266355455]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_CartoLight_0');
+        map.getPane('pane_CartoLight_0').style.zIndex = 400;
+        var layer_CartoLight_0 = L.tileLayer('http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.pn', {
+            pane: 'pane_CartoLight_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 22
+        });
+        layer_CartoLight_0;
+        map.addLayer(layer_CartoLight_0);
+        function pop_sectores_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['gid'] !== null ? autolinker.link(feature.properties['gid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">delegacion</th>\
+                        <td>' + (feature.properties['delegacion'] !== null ? autolinker.link(feature.properties['delegacion'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">zona</th>\
+                        <td>' + (feature.properties['zona'] !== null ? autolinker.link(feature.properties['zona'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['cve_zona'] !== null ? autolinker.link(feature.properties['cve_zona'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['consec_reg'] !== null ? autolinker.link(feature.properties['consec_reg'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['consec_sec'] !== null ? autolinker.link(feature.properties['consec_sec'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">nombre_sec</th>\
+                        <td>' + (feature.properties['nombre_sec'] !== null ? autolinker.link(feature.properties['nombre_sec'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ct'] !== null ? autolinker.link(feature.properties['ct'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['x'] !== null ? autolinker.link(feature.properties['x'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['y'] !== null ? autolinker.link(feature.properties['y'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id_alcaldi'] !== null ? autolinker.link(feature.properties['id_alcaldi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_sectores_1_0() {
+            return {
+                pane: 'pane_sectores_1',
+                opacity: 1,
+                color: 'rgba(180,180,180,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_sectores_1');
+        map.getPane('pane_sectores_1').style.zIndex = 401;
+        map.getPane('pane_sectores_1').style['mix-blend-mode'] = 'normal';
+        var layer_sectores_1 = new L.geoJson(json_sectores_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_sectores_1',
+            layerName: 'layer_sectores_1',
+            pane: 'pane_sectores_1',
+            onEachFeature: pop_sectores_1,
+            style: style_sectores_1_0,
+        });
+        bounds_group.addLayer(layer_sectores_1);
+        map.addLayer(layer_sectores_1);
+        function pop_CConcesionado_lineas_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">SISTEMA</th>\
+                        <td>' + (feature.properties['SISTEMA'] !== null ? autolinker.link(feature.properties['SISTEMA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CORREDOR</th>\
+                        <td>' + (feature.properties['CORREDOR'] !== null ? autolinker.link(feature.properties['CORREDOR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NOMBRE</th>\
+                        <td>' + (feature.properties['NOMBRE'] !== null ? autolinker.link(feature.properties['NOMBRE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">RUTA</th>\
+                        <td>' + (feature.properties['RUTA'] !== null ? autolinker.link(feature.properties['RUTA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">EMPRESA</th>\
+                        <td>' + (feature.properties['EMPRESA'] !== null ? autolinker.link(feature.properties['EMPRESA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NOMENCL</th>\
+                        <td>' + (feature.properties['NOMENCL'] !== null ? autolinker.link(feature.properties['NOMENCL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CConcesionado_lineas_2_0(feature) {
+            switch(String(feature.properties['RUTA'])) {
+                case '1o de Mayo - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(160,48,224,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Alameda Oriente - Constitución':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(223,221,105,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Allende - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(111,212,161,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Av. Ceylán - Av. Central':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(114,14,222,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Av. Homero - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(98,116,231,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Av. Homero - Metro Sevilla':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(102,108,216,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Barranca del Muerto - Canal de Chalco':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(163,117,201,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Barranca del Muerto - Ermita':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(207,227,76,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Bosques - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(18,239,195,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'C.U. - Pirul':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(107,75,203,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'C.U. - Tlaxopan':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(204,237,122,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'C.U. -Moras':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(62,222,177,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Canal de San Juan - Constitución':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(84,222,204,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Caseta a Cuernavaca - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(94,157,234,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Central de Abasto - Alameda Oriente':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(90,178,208,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Chapultepec por Boturini - Metro Pantitlán':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(42,226,18,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Coapa - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(228,58,28,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Cuatro Caminos - Alameda':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(67,209,15,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Cuatro Caminos - Buenavista':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(26,207,227,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Cuatro Caminos - Canal de Chalco':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(229,51,188,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Cuatro Caminos - Metro Pantitlán':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(103,77,219,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Cuatro Caminos - Revolución':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(227,158,85,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Cuatro Caminos - San Cosme':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(235,39,130,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Cuatro Caminos por Flores Magón - Aeropuerto':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(176,208,49,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Deportivo Xochimilco - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(55,210,107,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Duraznos - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(37,179,208,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Echegaray - Metro Cuitláhuac':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(210,58,207,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Ejército Nacional - Metro Sevilla':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(89,86,220,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Fuentes Brotantes - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(46,129,206,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Ingenieros Militares - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(202,178,55,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'La Joya - Corregidora':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(29,214,149,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'La Joya Hospitales - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(134,231,174,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Lomas de Sotelo - Buenavista':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(35,214,137,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Lomas de Sotelo - San Cosme':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(238,72,174,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Lomas de Sotelo por Homero - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(56,229,61,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Lomas Verdes - Metro Cuitláhuac':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(209,112,201,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Martín Carrera - Escuela Naval':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(22,215,57,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Basílica - Pradera':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(23,168,240,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Camarones - Manchuria':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(237,65,131,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Camarones - Peñón':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(236,101,23,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Chapultepec - Calle 81':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(52,201,18,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Chapultepec - Central de Abasto':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(215,220,117,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Normal - Canal de San Juan':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(170,126,235,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Normal - Pantitlán':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(225,97,41,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Normal - Pantitlán Calle 7':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(140,201,60,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Potrero - Bosques de Aragón':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(184,235,133,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Puebla por Sur 20 - La Valenciana':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(92,145,237,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Puebla por Sur 8 - La Valenciana':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(70,119,233,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Tacuba - Calle 81':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(205,117,45,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Tacuba por Fray Servando - Metro Pantitlán':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(221,128,136,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Metro Tepalcates - San Antonio Abad':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(180,48,237,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Odontología - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(130,216,86,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Odontología Av. 504 por puente - Chapultepec Av. 504 por puente':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(240,46,150,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Odontología por Av. 504 - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(212,199,82,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Odontología por puente - Chapultepec por puente':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(203,140,45,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Palmas - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(207,108,139,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Panteón San Isidro - Metro Oceanía Norte 172':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(131,220,68,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Panteón San Isidro - Peñón':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(72,205,68,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'PEMEX por Fray Servando - Metro Pantitlán':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(158,211,60,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Periférico - Balneario':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(213,189,117,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Politécnico - Reyes Iztacala':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(233,82,185,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'RCA Víctor - Peñón':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(19,223,213,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Santiago Tepalcatlalpan - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(228,77,35,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Satélite - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(215,40,228,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Tacuba - Central de Abasto':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(230,108,210,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Tacubaya - Canal de Chalco':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(126,118,202,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Tacubaya contraflujo Eje 3 - La Valenciana':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(93,21,236,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Tacubaya por Campeche - Tepalcates':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(70,163,225,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Tacubaya por Querétaro - La Valenciana':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(201,40,64,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Taxqueña - Moras':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(64,99,222,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Taxqueña - Pirul':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(97,202,204,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Taxqueña - Tlaxopan':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(201,50,86,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Tecamachalco - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(233,19,19,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Tepeximilpa - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(234,116,107,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Totoltepec - Izazaga':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(203,149,31,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Valle Dorado - Chapultepec':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(189,21,218,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Valle Dorado - Insurgentes':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(99,237,136,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Xochimilco - Izazaga por Miramontes':
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(71,212,88,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_CConcesionado_lineas_2',
+                opacity: 1,
+                color: 'rgba(190,120,209,0.7)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_CConcesionado_lineas_2');
+        map.getPane('pane_CConcesionado_lineas_2').style.zIndex = 402;
+        map.getPane('pane_CConcesionado_lineas_2').style['mix-blend-mode'] = 'normal';
+        var layer_CConcesionado_lineas_2 = new L.geoJson(json_CConcesionado_lineas_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CConcesionado_lineas_2',
+            layerName: 'layer_CConcesionado_lineas_2',
+            pane: 'pane_CConcesionado_lineas_2',
+            onEachFeature: pop_CConcesionado_lineas_2,
+            style: style_CConcesionado_lineas_2_0,
+        });
+        bounds_group.addLayer(layer_CConcesionado_lineas_2);
+        map.addLayer(layer_CConcesionado_lineas_2);
+        function pop_limite_de_las_alcaldias_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['_id'] !== null ? autolinker.link(feature.properties['_id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nomgeo'] !== null ? autolinker.link(feature.properties['nomgeo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['cve_mun'] !== null ? autolinker.link(feature.properties['cve_mun'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['cve_ent'] !== null ? autolinker.link(feature.properties['cve_ent'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['cvegeo'] !== null ? autolinker.link(feature.properties['cvegeo'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['gid'] !== null ? autolinker.link(feature.properties['gid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['g_pnt_2'] !== null ? autolinker.link(feature.properties['g_pnt_2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['geo_shp'] !== null ? autolinker.link(feature.properties['geo_shp'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['cvegeo2'] !== null ? autolinker.link(feature.properties['cvegeo2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_limite_de_las_alcaldias_3_0() {
+            return {
+                pane: 'pane_limite_de_las_alcaldias_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_limite_de_las_alcaldias_3');
+        map.getPane('pane_limite_de_las_alcaldias_3').style.zIndex = 403;
+        map.getPane('pane_limite_de_las_alcaldias_3').style['mix-blend-mode'] = 'normal';
+        var layer_limite_de_las_alcaldias_3 = new L.geoJson(json_limite_de_las_alcaldias_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_limite_de_las_alcaldias_3',
+            layerName: 'layer_limite_de_las_alcaldias_3',
+            pane: 'pane_limite_de_las_alcaldias_3',
+            onEachFeature: pop_limite_de_las_alcaldias_3,
+            style: style_limite_de_las_alcaldias_3_0,
+        });
+        bounds_group.addLayer(layer_limite_de_las_alcaldias_3);
+        map.addLayer(layer_limite_de_las_alcaldias_3);
+        function pop_robomicroclasificacin_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_1'] !== null ? autolinker.link(feature.properties['field_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">fechainici</th>\
+                        <td>' + (feature.properties['fechainici'] !== null ? autolinker.link(feature.properties['fechainici'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">horainicio</th>\
+                        <td>' + (feature.properties['horainicio'] !== null ? autolinker.link(feature.properties['horainicio'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">fechahecho</th>\
+                        <td>' + (feature.properties['fechahecho'] !== null ? autolinker.link(feature.properties['fechahecho'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">horahecho</th>\
+                        <td>' + (feature.properties['horahecho'] !== null ? autolinker.link(feature.properties['horahecho'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">resumen</th>\
+                        <td>' + (feature.properties['resumen'] !== null ? autolinker.link(feature.properties['resumen'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">categoria_</th>\
+                        <td>' + (feature.properties['categoria_'] !== null ? autolinker.link(feature.properties['categoria_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">delito</th>\
+                        <td>' + (feature.properties['delito'] !== null ? autolinker.link(feature.properties['delito'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">id_delito_</th>\
+                        <td>' + (feature.properties['id_delito_'] !== null ? autolinker.link(feature.properties['id_delito_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">lugar_comi</th>\
+                        <td>' + (feature.properties['lugar_comi'] !== null ? autolinker.link(feature.properties['lugar_comi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">fiscalia_i</th>\
+                        <td>' + (feature.properties['fiscalia_i'] !== null ? autolinker.link(feature.properties['fiscalia_i'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">agencia_in</th>\
+                        <td>' + (feature.properties['agencia_in'] !== null ? autolinker.link(feature.properties['agencia_in'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">unidadinve</th>\
+                        <td>' + (feature.properties['unidadinve'] !== null ? autolinker.link(feature.properties['unidadinve'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">alcaldiahe</th>\
+                        <td>' + (feature.properties['alcaldiahe'] !== null ? autolinker.link(feature.properties['alcaldiahe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ct_hechos</th>\
+                        <td>' + (feature.properties['ct_hechos'] !== null ? autolinker.link(feature.properties['ct_hechos'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">coloniahec</th>\
+                        <td>' + (feature.properties['coloniahec'] !== null ? autolinker.link(feature.properties['coloniahec'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">calle</th>\
+                        <td>' + (feature.properties['calle'] !== null ? autolinker.link(feature.properties['calle'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">fiscalia</th>\
+                        <td>' + (feature.properties['fiscalia'] !== null ? autolinker.link(feature.properties['fiscalia'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">agencia</th>\
+                        <td>' + (feature.properties['agencia'] !== null ? autolinker.link(feature.properties['agencia'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">geo_sector</th>\
+                        <td>' + (feature.properties['geo_sector'] !== null ? autolinker.link(feature.properties['geo_sector'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">clasificac</th>\
+                        <td>' + (feature.properties['clasificac'] !== null ? autolinker.link(feature.properties['clasificac'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_robomicroclasificacin_4_0(feature) {
+            switch(String(feature.properties['clasificac'])) {
+                case 'Asalto':
+                    return {
+                pane: 'pane_robomicroclasificacin_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(98,224,144,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bolseo':
+                    return {
+                pane: 'pane_robomicroclasificacin_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,200,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Otro':
+                    return {
+                pane: 'pane_robomicroclasificacin_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,100,165,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_robomicroclasificacin_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(43,68,231,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_robomicroclasificacin_4');
+        map.getPane('pane_robomicroclasificacin_4').style.zIndex = 404;
+        map.getPane('pane_robomicroclasificacin_4').style['mix-blend-mode'] = 'normal';
+        var layer_robomicroclasificacin_4 = new L.geoJson(json_robomicroclasificacin_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_robomicroclasificacin_4',
+            layerName: 'layer_robomicroclasificacin_4',
+            pane: 'pane_robomicroclasificacin_4',
+            onEachFeature: pop_robomicroclasificacin_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_robomicroclasificacin_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_robomicroclasificacin_4);
+        map.addLayer(layer_robomicroclasificacin_4);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'robo micro clasificación<br /><table><tr><td style="text-align: center;"><img src="legend/robomicroclasificacin_4_Asalto0.png" /></td><td>Asalto</td></tr><tr><td style="text-align: center;"><img src="legend/robomicroclasificacin_4_Bolseo1.png" /></td><td>Bolseo</td></tr><tr><td style="text-align: center;"><img src="legend/robomicroclasificacin_4_Otro2.png" /></td><td>Otro</td></tr><tr><td style="text-align: center;"><img src="legend/robomicroclasificacin_4_3.png" /></td><td></td></tr></table>': layer_robomicroclasificacin_4,'<img src="legend/limite_de_las_alcaldias_3.png" /> limite_de_las_alcaldias': layer_limite_de_las_alcaldias_3,'CConcesionado_lineas<br /><table><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_1odeMayoChapultepec0.png" /></td><td>1o de Mayo - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_AlamedaOrienteConstitución1.png" /></td><td>Alameda Oriente - Constitución</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_AllendeIzazaga2.png" /></td><td>Allende - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_AvCeylánAvCentral3.png" /></td><td>Av. Ceylán - Av. Central</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_AvHomeroChapultepec4.png" /></td><td>Av. Homero - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_AvHomeroMetroSevilla5.png" /></td><td>Av. Homero - Metro Sevilla</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_BarrancadelMuertoCanaldeChalco6.png" /></td><td>Barranca del Muerto - Canal de Chalco</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_BarrancadelMuertoErmita7.png" /></td><td>Barranca del Muerto - Ermita</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_BosquesChapultepec8.png" /></td><td>Bosques - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CUPirul9.png" /></td><td>C.U. - Pirul</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CUTlaxopan10.png" /></td><td>C.U. - Tlaxopan</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CUMoras11.png" /></td><td>C.U. -Moras</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CanaldeSanJuanConstitución12.png" /></td><td>Canal de San Juan - Constitución</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CasetaaCuernavacaIzazaga13.png" /></td><td>Caseta a Cuernavaca - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CentraldeAbastoAlamedaOriente14.png" /></td><td>Central de Abasto - Alameda Oriente</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_ChapultepecporBoturiniMetroPantitlán15.png" /></td><td>Chapultepec por Boturini - Metro Pantitlán</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CoapaIzazaga16.png" /></td><td>Coapa - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CuatroCaminosAlameda17.png" /></td><td>Cuatro Caminos - Alameda</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CuatroCaminosBuenavista18.png" /></td><td>Cuatro Caminos - Buenavista</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CuatroCaminosCanaldeChalco19.png" /></td><td>Cuatro Caminos - Canal de Chalco</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CuatroCaminosMetroPantitlán20.png" /></td><td>Cuatro Caminos - Metro Pantitlán</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CuatroCaminosRevolución21.png" /></td><td>Cuatro Caminos - Revolución</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CuatroCaminosSanCosme22.png" /></td><td>Cuatro Caminos - San Cosme</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_CuatroCaminosporFloresMagónAeropuerto23.png" /></td><td>Cuatro Caminos por Flores Magón - Aeropuerto</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_DeportivoXochimilcoIzazaga24.png" /></td><td>Deportivo Xochimilco - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_DuraznosChapultepec25.png" /></td><td>Duraznos - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_EchegarayMetroCuitláhuac26.png" /></td><td>Echegaray - Metro Cuitláhuac</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_EjércitoNacionalMetroSevilla27.png" /></td><td>Ejército Nacional - Metro Sevilla</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_FuentesBrotantesIzazaga28.png" /></td><td>Fuentes Brotantes - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_IngenierosMilitaresChapultepec29.png" /></td><td>Ingenieros Militares - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_LaJoyaCorregidora30.png" /></td><td>La Joya - Corregidora</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_LaJoyaHospitalesIzazaga31.png" /></td><td>La Joya Hospitales - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_LomasdeSoteloBuenavista32.png" /></td><td>Lomas de Sotelo - Buenavista</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_LomasdeSoteloSanCosme33.png" /></td><td>Lomas de Sotelo - San Cosme</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_LomasdeSoteloporHomeroChapultepec34.png" /></td><td>Lomas de Sotelo por Homero - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_LomasVerdesMetroCuitláhuac35.png" /></td><td>Lomas Verdes - Metro Cuitláhuac</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MartínCarreraEscuelaNaval36.png" /></td><td>Martín Carrera - Escuela Naval</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroBasílicaPradera37.png" /></td><td>Metro Basílica - Pradera</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroCamaronesManchuria38.png" /></td><td>Metro Camarones - Manchuria</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroCamaronesPeñón39.png" /></td><td>Metro Camarones - Peñón</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroChapultepecCalle8140.png" /></td><td>Metro Chapultepec - Calle 81</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroChapultepecCentraldeAbasto41.png" /></td><td>Metro Chapultepec - Central de Abasto</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroNormalCanaldeSanJuan42.png" /></td><td>Metro Normal - Canal de San Juan</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroNormalPantitlán43.png" /></td><td>Metro Normal - Pantitlán</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroNormalPantitlánCalle744.png" /></td><td>Metro Normal - Pantitlán Calle 7</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroPotreroBosquesdeAragón45.png" /></td><td>Metro Potrero - Bosques de Aragón</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroPueblaporSur20LaValenciana46.png" /></td><td>Metro Puebla por Sur 20 - La Valenciana</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroPueblaporSur8LaValenciana47.png" /></td><td>Metro Puebla por Sur 8 - La Valenciana</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroTacubaCalle8148.png" /></td><td>Metro Tacuba - Calle 81</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroTacubaporFrayServandoMetroPantitlán49.png" /></td><td>Metro Tacuba por Fray Servando - Metro Pantitlán</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_MetroTepalcatesSanAntonioAbad50.png" /></td><td>Metro Tepalcates - San Antonio Abad</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_OdontologíaChapultepec51.png" /></td><td>Odontología - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_OdontologíaAv504porpuenteChapultepecAv504porpuente52.png" /></td><td>Odontología Av. 504 por puente - Chapultepec Av. 504 por puente</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_OdontologíaporAv504Chapultepec53.png" /></td><td>Odontología por Av. 504 - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_OdontologíaporpuenteChapultepecporpuente54.png" /></td><td>Odontología por puente - Chapultepec por puente</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_PalmasChapultepec55.png" /></td><td>Palmas - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_PanteónSanIsidroMetroOceaníaNorte17256.png" /></td><td>Panteón San Isidro - Metro Oceanía Norte 172</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_PanteónSanIsidroPeñón57.png" /></td><td>Panteón San Isidro - Peñón</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_PEMEXporFrayServandoMetroPantitlán58.png" /></td><td>PEMEX por Fray Servando - Metro Pantitlán</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_PeriféricoBalneario59.png" /></td><td>Periférico - Balneario</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_PolitécnicoReyesIztacala60.png" /></td><td>Politécnico - Reyes Iztacala</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_RCAVíctorPeñón61.png" /></td><td>RCA Víctor - Peñón</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_SantiagoTepalcatlalpanIzazaga62.png" /></td><td>Santiago Tepalcatlalpan - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_SatéliteChapultepec63.png" /></td><td>Satélite - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TacubaCentraldeAbasto64.png" /></td><td>Tacuba - Central de Abasto</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TacubayaCanaldeChalco65.png" /></td><td>Tacubaya - Canal de Chalco</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TacubayacontraflujoEje3LaValenciana66.png" /></td><td>Tacubaya contraflujo Eje 3 - La Valenciana</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TacubayaporCampecheTepalcates67.png" /></td><td>Tacubaya por Campeche - Tepalcates</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TacubayaporQuerétaroLaValenciana68.png" /></td><td>Tacubaya por Querétaro - La Valenciana</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TaxqueñaMoras69.png" /></td><td>Taxqueña - Moras</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TaxqueñaPirul70.png" /></td><td>Taxqueña - Pirul</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TaxqueñaTlaxopan71.png" /></td><td>Taxqueña - Tlaxopan</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TecamachalcoChapultepec72.png" /></td><td>Tecamachalco - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TepeximilpaIzazaga73.png" /></td><td>Tepeximilpa - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_TotoltepecIzazaga74.png" /></td><td>Totoltepec - Izazaga</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_ValleDoradoChapultepec75.png" /></td><td>Valle Dorado - Chapultepec</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_ValleDoradoInsurgentes76.png" /></td><td>Valle Dorado - Insurgentes</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_XochimilcoIzazagaporMiramontes77.png" /></td><td>Xochimilco - Izazaga por Miramontes</td></tr><tr><td style="text-align: center;"><img src="legend/CConcesionado_lineas_2_78.png" /></td><td></td></tr></table>': layer_CConcesionado_lineas_2,'<img src="legend/sectores_1.png" /> sectores': layer_sectores_1,"Carto Light": layer_CartoLight_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_sectores_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['nombre_sec'] !== null?String('<div style="color: #323232; font-size: 7pt; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['nombre_sec']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_sectores_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_CConcesionado_lineas_2.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['RUTA'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['RUTA']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_CConcesionado_lineas_2'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_limite_de_las_alcaldias_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['nomgeo'] !== null?String('<div style="color: #323232; font-size: 9pt; font-family: \'Arial Black\', sans-serif;">' + layer.feature.properties['nomgeo']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_limite_de_las_alcaldias_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_sectores_1,layer_CConcesionado_lineas_2,layer_limite_de_las_alcaldias_3]);
+        map.on("zoomend", function(){
+            resetLabels([layer_sectores_1,layer_CConcesionado_lineas_2,layer_limite_de_las_alcaldias_3]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_sectores_1,layer_CConcesionado_lineas_2,layer_limite_de_las_alcaldias_3]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_sectores_1,layer_CConcesionado_lineas_2,layer_limite_de_las_alcaldias_3]);
+        });
+        </script>
+    </body>
+</html>
